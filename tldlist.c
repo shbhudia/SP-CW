@@ -78,7 +78,7 @@ char *get_country_code(char *hostname) {
 }
 
 // take substring of a given string
-void slice_str(const char *str, char *buffer, size_t start, size_t end) {
+void slice_str(char *str, char *buffer, size_t start, size_t end) {
     size_t j = 0;
     for ( size_t i = start; i <= end; ++i ) {
         buffer[j++] = str[i];
@@ -101,7 +101,7 @@ TLDNode *search_BST(TLDNode *root, char *country_code) {
 int look_for_node(TLDNode *root, char *country_code) {
 	TLDNode foundNode = search_BST(root, country_code);
 	if (foundNode) {
-		return 1
+		return 1;
 	}
 	return -1;
 }
@@ -120,7 +120,7 @@ TLDList *tldlist_create(Date *begin, Date *end) {
 	tld->begin = begin;
 	tld->end = end;
 	tld->elems_n = 0;
-	tld->nodeList = {};
+	tld->nodeList = {NULL};
 }
 
 /*
@@ -145,7 +145,8 @@ int tldlist_add(TLDList *tld, char *hostname, Date *d) {
 	int atEnd = date_compare(tld->end, d);  // valid if 0
 
 	if (validBeginDate == -1 || validEndDate == 1 || atBegin ==0 || atEnd ==0) {
-		char country_code = get_country_code(hostname);
+		char country_code[];
+		strcpy(country_code, get_country_code(hostname));
 		TLDNode node = addNode(tld, country_code, d, tld);
 		tld->elems_n = tld->elems_n + 1;
 		int unique = look_for_node(tld->rootNode, node->country_code);
