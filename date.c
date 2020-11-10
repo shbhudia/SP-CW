@@ -1,10 +1,11 @@
 // @author Shayam N. Bhudia
+// @guid 2394138b
+// Systems Programming - Coursework 1
 
 #include "date.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-// #include <regex.h>
 #include <string.h>
 
 // define the date structure
@@ -22,15 +23,11 @@ struct date {
  */
 Date *date_create(char *datestr) {
 
-	// // check for valid input format
-	// regex_t regex;
-	// int regex_compiled;
-	// int valid_date_format;
-
-	// regex_compiled = regcomp(®ex, "[:number:][:number:]/[:number:][:number:]/[:number:][:number:][:number:][:number:]", 0);
-	// valid_date_format = regexec(®ex, &datestr, 0, NULL, 0);
-
 	int valid_date_format = 0;
+
+	if (datestr == NULL) {
+		valid_date_format = 1;
+	}
 
 	if (valid_date_format == 0) {
 		Date *date = (Date *)malloc(sizeof(Date));
@@ -51,15 +48,21 @@ Date *date_create(char *datestr) {
 		sscanf(mm_str, "%d", &mm);
 		sscanf(yyyy_str, "%d", &yyyy);
 
+		// date validation
+		if (dd < 1 || dd > 31) {
+			return NULL;
+		}
+		if (mm < 1 or mm > 12) {
+			return NULL;
+		}
+		if (yyyy < 1983 or yyyy > 2020) { // birth of the internet and the current year (hardcoded for this assignment)
+			return NULL;
+		}
+
 		// assign values to the structure
 		date->day = dd;
 		date->month = mm;
 		date->year = yyyy;
-
-		// // test values
-		// printf("%d/", date->day);
-		// printf("%d/", date->month);
-		// printf("%d\n", date->year);
 
 		return date;
 

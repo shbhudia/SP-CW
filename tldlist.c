@@ -32,7 +32,7 @@ struct tlditerator {
 };
 
 
-/*** util functions for AVL handling ***/
+/*** util functions for BST handling ***/
 
 TLDNode* create_node(Date d, char *country_code) {
 	TLDNode *node = (TLDNode *)malloc(sizeof(TLDNode));
@@ -54,10 +54,10 @@ TLDNode addNode(TLDNode *root, Date *d, char *country_code, TLDList *tld) {
 	} else if (root->country_code == country_code) {
 		root->count = root->count + 1;
 		return root;
-	} else if (strncmp(country_code, root->country_code, 4) > 0) { // d is greater. Should be inserted to right
+	} else if (strncmp(country_code, root->country_code, 4) > 0) {
 		root->right_child = addNode(root->right_child, d, country_code, tld);
 
-	} else { // d is smaller (or equal) should be inserted to left
+	} else {
 		root->left_child = addNode(root->left_child, d, country_code, tld);
 	}
 
@@ -69,6 +69,11 @@ char *get_country_code(char *hostname) {
 	char country_code[] = "";
 	int n = strlen(hostname);
 	slice_str(hostname, country_code, n - 3; n);
+	if (strcmp(country_code[0], ".") == 0) {
+		char country_code_short[] = "";
+		slice_str(country_code, country_code_short, 1, 2); // remove the "."
+		return country_code_short;
+	}
 	return country_code;
 }
 
@@ -85,10 +90,10 @@ TLDNode search_BST(TLDNode *root, country_code) {
 	if (root == NULL || root->country_code==country_code) { // if root->country_code == country_code then the element is found
 		return root;
 	}
-    else if (strncmp(country_code, root->country_code, 4) > 0) { // x is greater, so we will search the right subtree
+    else if (strncmp(country_code, root->country_code, 4) > 0) { // search the right subtree
 		return search(root->right_child, country_code);
     }
-    else { // x is smaller than the data, so we will search the left subtree
+    else { // search the left subtree
 		return search(root->left_child,country_code);
 	}
 }
@@ -101,9 +106,7 @@ int look_for_node(TLDNode *root, country_code) {
 	return -1;
 }
 
-// void BST_to_array(TLDIterator *iter, TLDNode *root) {
-
-// }
+/*** Core program (provided functions) ***/
 
 /*
  * tldlist_create generates a list structure for storing counts against
