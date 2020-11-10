@@ -52,10 +52,10 @@ Date *date_create(char *datestr) {
 		if (dd < 1 || dd > 31) {
 			return NULL;
 		}
-		if (mm < 1 or mm > 12) {
+		if (mm < 1 || mm > 12) {
 			return NULL;
 		}
-		if (yyyy < 1983 or yyyy > 2020) { // birth of the internet and the current year (hardcoded for this assignment)
+		if (yyyy < 1983 || yyyy > 2020) { // birth of the internet and the current year (hardcoded for this assignment)
 			return NULL;
 		}
 
