@@ -38,8 +38,8 @@ TLDNode *create_node(Date d, char *country_code) {
 	TLDNode *node = (TLDNode *)malloc(sizeof(TLDNode));
 	node->date = d;
 	node->country_code = country_code;
-	node->left_child = NULL;
-	node->right_child = NULL;
+	node->l_child = NULL;
+	node->r_child = NULL;
 	node->count = 1;
 
 	return node;
@@ -55,10 +55,10 @@ TLDNode *addNode(TLDNode *root, Date *d, char *country_code, TLDList *tld) {
 		root->count = root->count + 1;
 		return root;
 	} else if (strncmp(country_code, root->country_code, 4) > 0) {
-		root->right_child = addNode(root->right_child, d, country_code, tld);
+		root->r_child = addNode(root->r_child, d, country_code, tld);
 
 	} else {
-		root->left_child = addNode(root->left_child, d, country_code, tld);
+		root->l_child = addNode(root->l_child, d, country_code, tld);
 	}
 
 	return root;
@@ -91,10 +91,10 @@ TLDNode *search_BST(TLDNode *root, char *country_code) {
 		return root;
 	}
     else if (strncmp(country_code, root->country_code, 4) > 0) { // search the right subtree
-		return search_BST(root->right_child, country_code);
+		return search_BST(root->r_child, country_code);
     }
     else { // search the left subtree
-		return search_BST(root->left_child,country_code);
+		return search_BST(root->l_child,country_code);
 	}
 }
 
