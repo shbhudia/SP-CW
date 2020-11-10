@@ -72,13 +72,13 @@ char *get_country_code(char *hostname) {
 	if (strcmp(country_code[0], ".") == 0) {
 		char country_code_short[] = "";
 		slice_str(country_code, country_code_short, 1, 2); // remove the "."
-		return country_code_short;
+		return *country_code_short;
 	}
-	return country_code;
+	return *country_code;
 }
 
 // take substring of a given string
-void slice_str(const char * str, char * buffer, size_t start, size_t end) {
+void slice_str(const char *str, char *buffer, size_t start, size_t end) {
     size_t j = 0;
     for ( size_t i = start; i <= end; ++i ) {
         buffer[j++] = str[i];
@@ -86,7 +86,7 @@ void slice_str(const char * str, char * buffer, size_t start, size_t end) {
     buffer[j] = 0;
 }
 
-TLDNode *search_BST(TLDNode *root, country_code) {
+TLDNode *search_BST(TLDNode *root, char *country_code) {
 	if (root == NULL || root->country_code==country_code) { // if root->country_code == country_code then the element is found
 		return root;
 	}
@@ -98,7 +98,7 @@ TLDNode *search_BST(TLDNode *root, country_code) {
 	}
 }
 
-int look_for_node(TLDNode *root, country_code) {
+int look_for_node(TLDNode *root, char *country_code) {
 	TLDNode foundNode = search_BST(root, country_code);
 	if (foundNode) {
 		return 1
