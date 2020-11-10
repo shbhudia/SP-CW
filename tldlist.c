@@ -34,7 +34,7 @@ struct tlditerator {
 
 /*** util functions for BST handling ***/
 
-TLDNode* create_node(Date d, char *country_code) {
+TLDNode *create_node(Date d, char *country_code) {
 	TLDNode *node = (TLDNode *)malloc(sizeof(TLDNode));
 	node->date = d;
 	node->country_code = country_code;
@@ -45,7 +45,7 @@ TLDNode* create_node(Date d, char *country_code) {
 	return node;
 }
 
-TLDNode addNode(TLDNode *root, Date *d, char *country_code, TLDList *tld) {
+TLDNode *addNode(TLDNode *root, Date *d, char *country_code, TLDList *tld) {
     //searching for the place to insert the new node (recursively)
     if (root == NULL) {
     	tld->rootNode = root;
@@ -68,7 +68,7 @@ TLDNode addNode(TLDNode *root, Date *d, char *country_code, TLDList *tld) {
 char *get_country_code(char *hostname) {
 	char country_code[] = "";
 	int n = strlen(hostname);
-	slice_str(hostname, country_code, n - 3; n);
+	slice_str(hostname, country_code, n - 3, n);
 	if (strcmp(country_code[0], ".") == 0) {
 		char country_code_short[] = "";
 		slice_str(country_code, country_code_short, 1, 2); // remove the "."
@@ -86,15 +86,15 @@ void slice_str(const char * str, char * buffer, size_t start, size_t end) {
     buffer[j] = 0;
 }
 
-TLDNode search_BST(TLDNode *root, country_code) {
+TLDNode *search_BST(TLDNode *root, country_code) {
 	if (root == NULL || root->country_code==country_code) { // if root->country_code == country_code then the element is found
 		return root;
 	}
     else if (strncmp(country_code, root->country_code, 4) > 0) { // search the right subtree
-		return search(root->right_child, country_code);
+		return search_BST(root->right_child, country_code);
     }
     else { // search the left subtree
-		return search(root->left_child,country_code);
+		return search_BST(root->left_child,country_code);
 	}
 }
 
